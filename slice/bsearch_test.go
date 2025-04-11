@@ -14,7 +14,7 @@ func TestBsearch(t *testing.T) {
 		arr[i] = i * 2
 	}
 
-	idx := slice.Bsearch(arr, func(target int) int {
+	idx := slice.Bsearch(arr, func(target int) compare_type.CompareType {
 		if target == 123456 {
 			return compare_type.EQUAL
 		} else if target < 123456 {
@@ -30,7 +30,7 @@ func TestBsearch(t *testing.T) {
 		t.Logf("Do not find: %d", idx)
 	}
 
-	idx = slice.Bsearch(arr, func(target int) int {
+	idx = slice.Bsearch(arr, func(target int) compare_type.CompareType {
 		if target == 123457 {
 			return compare_type.EQUAL
 		} else if target < 123457 {
@@ -46,7 +46,7 @@ func TestBsearch(t *testing.T) {
 		t.Logf("Do not find: %d", idx)
 	}
 
-	idx = slice.Bsearch(arr, func(target int) int {
+	idx = slice.Bsearch(arr, func(target int) compare_type.CompareType {
 		if target == -1 {
 			return compare_type.EQUAL
 		} else if target < -1 {
@@ -62,7 +62,7 @@ func TestBsearch(t *testing.T) {
 		t.Logf("Do not find: %d", idx)
 	}
 
-	idx = slice.Bsearch(arr, func(target int) int {
+	idx = slice.Bsearch(arr, func(target int) compare_type.CompareType {
 		if target == 10000000 {
 			return compare_type.EQUAL
 		} else if target < 10000000 {

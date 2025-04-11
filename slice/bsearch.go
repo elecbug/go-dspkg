@@ -6,7 +6,7 @@ import "github.com/elecbug/go-dspkg/slice/compare_type"
 // `compare` should return true if the `target` is less than or equal to the current element.
 // The function returns the first index i such that `compare(slice[i]) == compare_type.EQUAL`.
 // If no such index exists, it returns `-1`.
-func Bsearch[T any](slice []T, compare func(target T) int) int {
+func Bsearch[T any](slice []T, compare func(target T) compare_type.CompareType) int {
 	left, right := 0, len(slice)-1
 
 	for left <= right {

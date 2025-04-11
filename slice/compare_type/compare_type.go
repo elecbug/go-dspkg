@@ -1,7 +1,9 @@
 package compare_type
 
-var (
-	TARGET_SMALL = -1
-	EQUAL        = 0
-	TARGET_BIG   = 1
+type CompareType int
+
+const (
+	EQUAL CompareType = iota
+	TARGET_SMALL
+	TARGET_BIG
 )
