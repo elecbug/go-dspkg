@@ -11,7 +11,7 @@ import (
 	"github.com/elecbug/go-dspkg/graph/graph_type"
 )
 
-func TestAlgorithm(t *testing.T) {
+func TestUnweighted(t *testing.T) {
 	// g := graph.NewGraph(graph.UNDIRECTED_UNWEIGHTED, 0)
 	// g.Update()
 	// g.IsUpdated()
