@@ -1,18 +1,20 @@
 package bimap
 
-// Bidirectional map structure to ensure constant time complexity.
+// Bimap is a bidirectional map structure that ensures constant time complexity.
+// It maintains two maps: one for forward mapping and another for reverse mapping.
 type Bimap[T1 comparable, T2 comparable] struct {
 	forward map[T1]T2
 	reverse map[T2]T1
 }
 
-// `Pair` structure consisting of one `Key`, `Value` pair
+// Pair represents a key-value pair used in the Bimap.
 type Pair[T1 comparable, T2 comparable] struct {
 	Key   T1
 	Value T2
 }
 
-// Create a `Bimap` with `T1` and `T2` as types.
+// New creates and initializes a Bimap with specified types T1 and T2.
+// It returns a pointer to the newly created Bimap.
 func New[T1 comparable, T2 comparable]() *Bimap[T1, T2] {
 	return &Bimap[T1, T2]{
 		forward: make(map[T1]T2),
@@ -20,9 +22,8 @@ func New[T1 comparable, T2 comparable]() *Bimap[T1, T2] {
 	}
 }
 
-// Save data to `Bimap`.
-// It allows overwriting, and removes the existing pair if any of the
-// `key` and `value` that were previously used overlap.
+// Set adds or updates a key-value pair in the Bimap.
+// If the key or value already exists, the old pair is removed to maintain consistency.
 func (b *Bimap[T1, T2]) Set(key T1, value T2) {
 	if oldVal, ok := b.forward[key]; ok {
 		delete(b.reverse, oldVal)
@@ -35,22 +36,22 @@ func (b *Bimap[T1, T2]) Set(key T1, value T2) {
 	b.reverse[value] = key
 }
 
-// Get the value from the `key`.
-// if it exists `(value, true)` and if it doesn't, it's `false`.
+// GetByKey retrieves the value associated with the given key.
+// Returns the value and a boolean indicating whether the key exists.
 func (b *Bimap[T1, T2]) GetByKey(key T1) (T2, bool) {
 	val, ok := b.forward[key]
 	return val, ok
 }
 
-// Get the key from the `value`.
-// if it exists `(key, true)` and if it doesn't, it's `false`.
+// GetByValue retrieves the key associated with the given value.
+// Returns the key and a boolean indicating whether the value exists.
 func (b *Bimap[T1, T2]) GetByValue(value T2) (T1, bool) {
 	key, ok := b.reverse[value]
 	return key, ok
 }
 
-// Remove the pair of bidirectional as the `key`.
-// if it remove `true` and if doesn't, it's `false`.
+// DeleteByKey removes the pair associated with the given key.
+// Returns true if the pair was removed, and false if the key did not exist.
 func (b *Bimap[T1, T2]) DeleteByKey(key T1) bool {
 	if val, ok := b.forward[key]; ok {
 		delete(b.forward, key)
@@ -62,8 +63,8 @@ func (b *Bimap[T1, T2]) DeleteByKey(key T1) bool {
 	}
 }
 
-// Remove the pair of bidirectional as the `value`.
-// if it remove `true` and if doesn't, it's `false`.
+// DeleteByValue removes the pair associated with the given value.
+// Returns true if the pair was removed, and false if the value did not exist.
 func (b *Bimap[T1, T2]) DeleteByValue(value T2) bool {
 	if key, ok := b.reverse[value]; ok {
 		delete(b.reverse, value)
@@ -75,7 +76,7 @@ func (b *Bimap[T1, T2]) DeleteByValue(value T2) bool {
 	}
 }
 
-// Returns `Bimap` as a list of simple `Key`, `Value` `Pair`.
+// ToList returns the Bimap as a slice of simple Key, Value Pair.
 func (b Bimap[T1, T2]) ToList() []Pair[T1, T2] {
 	result := make([]Pair[T1, T2], len(b.forward))
 	i := 0

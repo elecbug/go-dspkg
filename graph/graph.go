@@ -6,7 +6,7 @@ import (
 	"github.com/elecbug/go-dspkg/graph/graph_type"
 )
 
-// `Graph` type expressed internally through matrix operations.
+// Graph type expressed internally through matrix operations.
 // This can express weighted/unweighted and directed/undirected, etc.
 type Graph struct {
 	matrix        Matrix
@@ -19,16 +19,16 @@ type Graph struct {
 	edgeCount     int
 }
 
-// `NodeID` wrapper type.
+// NodeID wrapper type.
 type NodeID int
 
-// `Degree` means node's incoming/outgoing edge count.
+// Degree means node's incoming/outgoing edge count.
 type Degree struct {
 	Incoming int
 	Outgoing int
 }
 
-// `NewGraph` creates and initializes a new Graph instance.
+// NewGraph creates and initializes a new Graph instance.
 // Returns a pointer to the newly created Graph.
 func NewGraph(graphType graph_type.GraphType, capacity int) *Graph {
 	return &Graph{
@@ -43,7 +43,7 @@ func NewGraph(graphType graph_type.GraphType, capacity int) *Graph {
 	}
 }
 
-// `AddNode` adds a new node to the graph.
+// AddNode adds a new node to the graph.
 // Returns the newly created node's ID and an error if insertion fails.
 func (g *Graph) AddNode() (NodeID, error) {
 	if g.recentlyID >= g.capacity {
@@ -58,7 +58,7 @@ func (g *Graph) AddNode() (NodeID, error) {
 	return NodeID(g.recentlyID - 1), nil
 }
 
-// `RemoveNode` removes a node from the graph using its ID.
+// RemoveNode removes a node from the graph using its ID.
 // Returns an error if the node does not exist.
 func (g *Graph) RemoveNode(id NodeID) error {
 	if id > NodeID(g.recentlyID) {
@@ -84,7 +84,7 @@ func (g *Graph) RemoveNode(id NodeID) error {
 	return nil
 }
 
-// `FindNode` retrieves a node from the graph by its ID.
+// FindNode retrieves a node from the graph by its ID.
 // Returns the Node and an error if the node does not exist.
 func (g *Graph) FindNode(id NodeID) (bool, error) {
 	if id > NodeID(g.recentlyID) {
@@ -94,13 +94,13 @@ func (g *Graph) FindNode(id NodeID) (bool, error) {
 	return g.state[int(id)], nil
 }
 
-// `AddEdge` adds an unweighted edge between two nodes in the graph.
+// AddEdge adds an unweighted edge between two nodes in the graph.
 // Returns an error if the edge cannot be added.
 func (g *Graph) AddEdge(from, to NodeID) error {
 	return g.AddWeightEdge(from, to, 1)
 }
 
-// `AddWeightEdge` adds a weighted edge between two nodes in the graph.
+// AddWeightEdge adds a weighted edge between two nodes in the graph.
 // Returns an error if the edge cannot be added.
 func (g *Graph) AddWeightEdge(from, to NodeID, distance Distance) error {
 	if (g.graphType == graph_type.DIRECTED_UNWEIGHTED || g.graphType == graph_type.UNDIRECTED_UNWEIGHTED) && distance != 1 {
@@ -144,7 +144,7 @@ func (g *Graph) AddWeightEdge(from, to NodeID, distance Distance) error {
 	return nil
 }
 
-// `RemoveEdge` removes an edge between two nodes in the graph.
+// RemoveEdge removes an edge between two nodes in the graph.
 // For undirected graphs, the reverse edge is also removed.
 func (g *Graph) RemoveEdge(from, to NodeID) error {
 	if from == to {
@@ -184,8 +184,8 @@ func (g *Graph) RemoveEdge(from, to NodeID) error {
 	return nil
 }
 
-// `FindEdge` searches for an edge between two nodes in the graph and returns its distance.
-// `Distance` of the edge if it exists.
+// FindEdge searches for an edge between two nodes in the graph and returns its distance.
+// Distance of the edge if it exists.
 // An error if the edge or either of the nodes does not exist, or if attempting to find a self-loop edge.
 func (g *Graph) FindEdge(from, to NodeID) (Distance, error) {
 	if from == to {
@@ -207,7 +207,7 @@ func (g *Graph) FindEdge(from, to NodeID) (Distance, error) {
 	return g.matrix[from][to], nil
 }
 
-// `Degree` returns degree of node from the graph by its ID.
+// Degree returns degree of node from the graph by its ID.
 func (g *Graph) Degree(id NodeID) (*Degree, error) {
 	if id > NodeID(g.recentlyID) {
 		return nil, fmt.Errorf("entered ID %d is bigger then currently node count %d", id, g.recentlyID)
@@ -234,7 +234,7 @@ func (g *Graph) Degree(id NodeID) (*Degree, error) {
 	return &degree, nil
 }
 
-// `AliveNodes` return list of all activated node
+// AliveNodes return list of all activated node
 func (g *Graph) AliveNodes() []NodeID {
 	result := make([]NodeID, g.nodeCount)
 
@@ -249,13 +249,13 @@ func (g *Graph) AliveNodes() []NodeID {
 	return result
 }
 
-// `Matrix` converts the graph to an adjacency matrix representation.
+// Matrix converts the graph to an adjacency matrix representation.
 // Returns a Matrix where each element represents the distance between two nodes.
 func (g Graph) ToMatrix() Matrix {
 	return g.matrix
 }
 
-// `String` returns a string representation of the Matrix.
+// String returns a string representation of the Matrix.
 // This method formats the matrix for easy readability:
 func (g Graph) String() string {
 	result := ""
@@ -281,22 +281,22 @@ func (g Graph) String() string {
 	return result
 }
 
-// `NodeCount` returns the number of nodes in the graph.
+// NodeCount returns the number of nodes in the graph.
 func (g Graph) NodeCount() int {
 	return g.nodeCount
 }
 
-// `EdgeCount` returns the number of edges in the graph.
+// EdgeCount returns the number of edges in the graph.
 func (g Graph) EdgeCount() int {
 	return g.edgeCount
 }
 
-// `Type` returns the type of the graph (e.g., directed/undirected, weighted/unweighted).
+// Type returns the type of the graph (e.g., directed/undirected, weighted/unweighted).
 func (g Graph) Type() graph_type.GraphType {
 	return g.graphType
 }
 
-// `Version` returns whether the graph has been updated since the last algorithmic computation.
+// Version returns whether the graph has been updated since the last algorithmic computation.
 func (g Graph) Version() int {
 	return g.updateVersion
 }

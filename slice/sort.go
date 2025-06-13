@@ -2,8 +2,8 @@ package slice
 
 import "sync"
 
-// `Sort` performs a merge sort on the given slice using the provided comparison function.
-// The `compare` function should return true if `a` should come before `b`.
+// Sort performs a merge sort on the given slice using the provided comparison function.
+// The compare function should return true if a should come before b.
 func Sort[T any](slice []T, compare func(a, b T) bool) {
 	if len(slice) <= 1 {
 		return
@@ -48,9 +48,9 @@ func Sort[T any](slice []T, compare func(a, b T) bool) {
 	copy(slice, sorted)
 }
 
-// `ParallelSort` performs a merge sort with parallel on the given slice using the provided comparison function.
-// The `compare` function should return true if `a` should come before `b`.
-// The `level` is depth of splitting through thread.
+// ParallelSort performs a merge sort with parallel on the given slice using the provided comparison function.
+// The compare function should return true if a should come before b.
+// The level is depth of splitting through thread.
 func ParallelSort[T any](slice []T, compare func(a, b T) bool, level int) {
 	if len(slice) <= 1 {
 		return
@@ -125,9 +125,9 @@ func ParallelSort[T any](slice []T, compare func(a, b T) bool, level int) {
 	copy(slice, sorted)
 }
 
-// Verify that the `slice` is sorted.
-// The `compare` is a validation function, This return `true` only when every
-// `compare(a, b) == true` for two adjacent `a` and `b` elements in `slice`.
+// Verify that the slice is sorted.
+// The compare is a validation function, This return true only when every
+// compare(a, b) == true for two adjacent a and b elements in slice.
 func IsSorted[T any](slice []T, compare func(a, b T) bool) bool {
 	for i := 0; i < len(slice)-1; i++ {
 		if !compare(slice[i], slice[i+1]) {

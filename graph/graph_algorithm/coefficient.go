@@ -6,10 +6,10 @@ import (
 	"github.com/elecbug/go-dspkg/graph"
 )
 
-// `ClusteringCoefficient` computes the local and global clustering coefficients for a graph using a `Unit`.
+// ClusteringCoefficient computes the local and global clustering coefficients for a graph using a Unit.
 // Local clustering coefficient measures the degree to which nodes in a graph cluster together.
 // Global clustering coefficient is the average of local coefficients across all nodes.
-// Return (local, global) clustering coefficient.
+// Returns (local, global) clustering coefficient.
 func (u *Unit) ClusteringCoefficient() (map[graph.NodeID]float64, float64) {
 	g := u.graph
 	matrix := g.ToMatrix() // Get adjacency matrix representation of the graph.
@@ -59,9 +59,9 @@ func (u *Unit) ClusteringCoefficient() (map[graph.NodeID]float64, float64) {
 	return localCoeffs, globalCoeff
 }
 
-// `ClusteringCoefficient` computes the local and global clustering coefficients for a graph using a `ParallelUnit`.
+// ClusteringCoefficient computes the local and global clustering coefficients for a graph using a ParallelUnit.
 // The computation is performed in parallel for better performance on larger graphs.
-// Return (local, global) clustering coefficient.
+// Returns (local, global) clustering coefficient.
 func (pu *ParallelUnit) ClusteringCoefficient() (map[graph.NodeID]float64, float64) {
 	g := pu.graph
 	matrix := g.ToMatrix() // Get adjacency matrix representation of the graph.
@@ -136,7 +136,7 @@ func (pu *ParallelUnit) ClusteringCoefficient() (map[graph.NodeID]float64, float
 	return localCoeffs, globalCoeff
 }
 
-// `RichClubCoefficient` computes the rich club coefficient for a given threshold degree `k`.
+// RichClubCoefficient computes the rich club coefficient for a given threshold degree `k`.
 // This coefficient measures how well nodes with `k <= degree` are connected to each other.
 func (u *Unit) RichClubCoefficient(k int) float64 {
 	g := u.graph
@@ -177,7 +177,7 @@ func (u *Unit) RichClubCoefficient(k int) float64 {
 	return float64(2*Ek) / float64(Nk*(Nk-1))
 }
 
-// `RichClubCoefficient` computes the rich club coefficient for a given threshold degree k using a `ParallelUnit`.
+// RichClubCoefficient computes the rich club coefficient for a given threshold degree k using a `ParallelUnit`.
 // The computation is performed in parallel for better performance.
 func (pu *ParallelUnit) RichClubCoefficient(k int) float64 {
 	g := pu.graph
